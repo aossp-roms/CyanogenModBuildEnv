@@ -9,8 +9,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provider :virtualbox do |vb|
     vb.customize ["modifyvm", :id, "--memory", "2048"]
+
+    # add to improve NAT performance in VirtualBox
+    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+
+    vb.cpus = 4
   end
 
   config.vm.provision :puppet
   config.ssh.forward_agent = true
+
+  # enable host network, for nfs file access
+  config.vm.network "private_network", ip: "192.168.33.10"
+
+  # uncomment and add path to case-sensitive disk image
+  # config.vm.synced_folder "/Volumes/cyanogen", "/opt/cyanogen", type: "nfs"
 end
