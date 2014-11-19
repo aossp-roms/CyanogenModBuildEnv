@@ -1,0 +1,30 @@
+#!/bin/bash
+# format /sdb1 as /media/cyanogenmod if it isn't formatted already
+
+# check for new partitions
+partprobe
+
+for disk in /dev/sd[b-z] ; do
+    # cyngndir=cyanogenmod`echo ${disk: -1:1} | tr [b-z] [a-y]`
+    cyngndir=cyanogenmod
+    echo "device=${disk}1"
+    echo "mountpoint=/media/$cyngndir"
+    if [ -b ${disk} ]; then
+        # disk exists
+        if [ ! -b ${disk}1 ]; then
+            echo "${disk} is not partitioned. Partitioning now..."
+            parted -a optimal --script ${disk} mklabel gpt mkpart primary ext4 1 100%
+            echo "formatting ${disk}1"
+            mke2fs -q -j -L${cyngndir} ${disk}1
+            tune2fs -c 0 -i 0 ${disk}1
+        fi
+
+        # create & configure mountpoint
+        mkdir -p /media/$cyngndir
+        #chown vagrant:vagrant /media/$cyngndir
+        #chmod 755 /media/$cyngndir
+        grep -qs ^LABEL=$cyngndir /etc/fstab || echo "LABEL=$cyngndir /media/$cyngndir ext4 defaults 0 0" >> /etc/fstab
+    fi
+done
+
+mount -a

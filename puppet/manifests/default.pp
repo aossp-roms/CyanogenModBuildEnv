@@ -1,4 +1,3 @@
-
 class prep-android-build {
     Exec {
         path      => [
@@ -13,12 +12,12 @@ class prep-android-build {
     }
 
     exec { "apt-get update":
-	    command => "/usr/bin/apt-get update",
+        command => "/usr/bin/apt-get update",
     }
 
     Package {
         ensure  => present,
-        require => Exec['apt-get update'],
+        require => Exec['apt-get update']
     }
 
     package { "build-essential": }
@@ -36,8 +35,8 @@ class prep-android-build {
     package { "zip": }
     package { "libncurses5-dev": }
     package { "zlib1g-dev": }
-    package { "openjdk-6-jre": }
-    package { "openjdk-6-jdk": }
+    package { "openjdk-7-jre": }
+    package { "openjdk-7-jdk": }
     package { "pngcrush": }
     package { "schedtool": }
     package { "libxml2": }
@@ -61,7 +60,7 @@ class prep-android-build {
     exec { 'download and install android sdk':
         user    => 'vagrant',
         cwd     => '/home/vagrant',
-        command => 'bash -c "mkdir -p sdk && cd sdk && wget http://dl.google.com/android/adt/adt-bundle-linux-x86_64-20131030.zip && unzip adt-bundle-linux-x86_64-20131030.zip"',
+        command => 'bash -c "mkdir -p sdk && cd sdk && wget https://dl.google.com/android/adt/adt-bundle-linux-x86-20140702.zip && unzip adt-bundle-linux-x86-20140702.zip"',
         timeout => 600,
         creates => '/home/vagrant/sdk/adt-bundle-linux-x86_64-20131030/sdk/platform-tools/adb',
         require => [ Package['zip'], Package['wget'] ],
@@ -70,11 +69,17 @@ class prep-android-build {
     exec { 'update path':
         user    => 'vagrant',
         cwd     => '/home/vagrant',
-        command => 'bash -c "echo export PATH=\"\${PATH}:~/sdk/adt-bundle-linux-x86_64-20131030/sdk/platform-tools\" >> .bashrc"',
+        command => 'bash -c "echo export PATH=\"\${PATH}:~/sdk/adt-bundle-linux-x86_64-20140702/sdk/platform-tools\" >> .bashrc"',
+    }
+
+    exec { 'chown':
+        command => '/bin/chown -R vagrant:vagrant /media/cyanogenmod/',
+        path => '/bin',
+        user => 'root'
     }
 
     # repo init/sync:
-    # repo init -u git://github.com/CyanogenMod/android.git -b cm-10.1
+    # repo init -u git://github.com/CyanogenMod/android.git -b cm-11.0
     # repo sync
 
     # get prebuilt
