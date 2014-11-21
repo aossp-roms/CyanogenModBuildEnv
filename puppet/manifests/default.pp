@@ -78,13 +78,14 @@ class prep-android-build {
         user => 'root'
     }
 
+    # cd /media/cyanogenmod
+
     # repo init/sync:
     # repo init -u git://github.com/CyanogenMod/android.git -b cm-11.0
     # repo sync
 
     # get prebuilt
-    # cd ~/android/system/vendor/cm
-    # ./get-prebuilts
+    # ./vendor/cm/get-prebuilts
 
 }
 
