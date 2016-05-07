@@ -7,12 +7,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provider :virtualbox do |vb|
     vb.customize ["modifyvm", :id, "--memory", "4096"]
-    # Work around OS X 10.10 host networking slowdowns
-    # https://github.com/coreos/coreos-vagrant/issues/124#issuecomment-49481032
     vb.auto_nat_dns_proxy = false
     vb.customize ["modifyvm", :id, "--natdnsproxy1", "off"]
     vb.customize ["modifyvm", :id, "--natdnshostresolver1", "off"]
     vb.customize ["modifyvm", :id, "--nictype1", "virtio"]
+    vb.customize ["modifyvm", :id, "--usb", "on"]
+    vb.customize ["modifyvm", :id, "--usbehci", "on"]
   end
 
   config.vm.provision :puppet
