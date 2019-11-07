@@ -44,8 +44,8 @@ class prep-android-build {
     package { "libxml2": }
     package { "libxml2-utils": }
     package { "lzop": }
-    package { "openjdk-6-jdk": }
-    package { "openjdk-6-jre": }
+    package { "openjdk-7-jdk": }
+    package { "openjdk-7-jre": }
     package { "pngcrush": }
     package { "schedtool": }
     package { "squashfs-tools": }
