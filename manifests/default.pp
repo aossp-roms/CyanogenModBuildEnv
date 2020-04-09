@@ -68,12 +68,12 @@ class prep-android-build {
     }
 
     # repo init/sync:
-    # repo init -u git://github.com/CyanogenMod/android.git -b cm-11.0
-    # repo sync
+     repo init -u git://github.com/aossp-roms/aossp-repos.git -b cm-11.0
+     repo sync --no-clone-bundle --force-sync --no-tags --optimized-fetch -j$(nproc --all)
 
     # get prebuilt
-    # cd ~/android/system/vendor/cm
-    # ./get-prebuilts
+     cd ~/android/system/vendor/cm
+     ./get-prebuilts
 
 }
 
