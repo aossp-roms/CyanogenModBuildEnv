@@ -2,7 +2,7 @@
 
 To get up and running, install vagrant and then:
 
-    git clone https://github.com/farproc/CyanogenModBuildEnv.git
+    git clone --depth 1 https://github.com/farproc/CyanogenModBuildEnv.git
     cd CyanogenModBuildEnv
     vagrant up
 
